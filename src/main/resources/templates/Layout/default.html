@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="fragments/head :: headFragment">
+		<meta charset="UTF-8" />
+		<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">농수산광장</title>
+		
+</head>
+<body>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<!-- [header] 영역 시작 -->
+		<header th:replace="fragments/header :: headerFragment"></header>
+		<!-- [header] 영역 끝 -->
+		
+		<!-- [content] 영역 시작 -->
+		<th:block layout:fragment="content"></th:block>
+		<!-- [content] 영역 끝 -->
+		
+		<!-- [footer] 영역 시작 -->
+		<footer th:replace="fragments/footer :: footerFragment"></footer>
+		<!-- [footer] 영역 끝 -->
+		
+		 <!-- Content Page의 script fragment 삽입 -->
+        <th:block layout:fragment="script"></th:block>
+</body>
+</html>

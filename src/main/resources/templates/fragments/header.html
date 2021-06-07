@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<!-- Header Section Begin -->
+    <header class="header-section" th:fragment="headerFragment">
+        <div class="header-top">
+            <div class="container">
+                <div class="ht-right">
+                    <th:block sec:authorize="!isAuthenticated()">
+	                   	<a href="/select" class="login-panel">회원가입</a>
+	                   	<a href="/login" class="login-panel">로그인</a>
+	                </th:block>
+	                 <th:block sec:authorize="isAuthenticated()">
+	                   	<a href="/logout" class="login-panel">로그아웃</a>
+	                </th:block>
+				</div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="inner-header">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2">
+                        <div class="logo">
+                            <a th:href="@{'/'}" href="main">
+                                <img src="/img/logo4.jpg">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="advanced-search">
+							<form action="/searchproduct" th:action="@{/searchproduct}" method="POST"> 
+								<div class="input-group">
+									<input type="text" name="keyword" value="" placeholder="검색어를 입력해보세요">
+									<button type="submit" id="keyword_search"> <i class="ti-search"></i>
+									</button>
+								</div>
+							</form>
+						</div>
+                    </div>
+                    <div class="col-lg-3 text-right col-md-3">
+                        <ul class="nav-right">
+                            <li class="cart-icon">
+                            	<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') ? true : false}">
+	                                <a href="/admin/adminPage" th:href="@{'/admin/adminPage'}">
+	                                    <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+	                                </a>
+	                            </div>
+	                            <div th:if="${#authorization.expression('hasRole(''ROLE_SELLER'')') ? true : false}">
+	                                <a href="/seller/sellerPage" th:href="@{'/seller/sellerPage'}">
+	                                    <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+	                                </a>
+	                            </div>
+	                            <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')') ? true : false}">
+	                                 <a th:href="@{'/user/customer'}" href="customer">
+                                    <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                                </a>
+	                            </div>
+	                            <th:block sec:authorize="!isAuthenticated()">
+	                            	<a href="/user/userPage" th:href="@{'/login'}">
+	                                    <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+	                                </a>
+	                            </th:block>
+                            </li>
+                            <th:block sec:authorize="!isAuthenticated()">
+	                            <li class="cart-icon">
+	                                <a href="#" th:href="@{'/login'}">
+	                                    <i class="fa fa-truck fa-2x" aria-hidden="true"></i>
+	                                </a>
+	                            </li>
+	                        </th:block>
+	                        <th:block sec:authorize="isAuthenticated()">
+	                            <li class="cart-icon">
+	                                <a href="#" th:href="@{'/user/delivery'}">
+	                                    <i class="fa fa-truck fa-2x" aria-hidden="true"></i>
+	                                </a>
+	                            </li>
+	                        </th:block>
+                            <li class="cart-icon">
+	                            <th:block sec:authorize="isAuthenticated()">
+										<a href="/shopping-cart" th:href="@{'/user/shoppingcart'}" > 
+										<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
+										</a>
+								</th:block>
+								<th:block sec:authorize="!isAuthenticated()">
+									<a href="/shopping-cart" th:href="@{'/login'}" > 
+										<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
+									</a>
+								</th:block>
+							</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="container">
+                <nav class="nav-menu mobile-menu">
+                    <ul>
+                        <li><a th:href="@{'/'}" href="main">홈</a></li>
+                        <li><a th:href="@{'/products/allproduct'}" href="allproduct">전체 상품</a></li>
+                        <li><a th:href="@{'/products/vegetable_fruit'}" href="vegetable_fruit">농산물</a>
+                            <ul class="dropdown">
+                                <li><a th:href="@{'/products/vegetable'}" href="vegetable">채소</a></li>
+                                <li><a th:href="@{'/products/fruit'}" href="fruit">과일</a></li>
+                            </ul>
+                        </li>
+                        <li><a th:href="@{'/products/fish'}" href="fish">수산물</a></li>
+                        <li><a th:href="@{'/products/frozenfood'}" href="frozenfood">냉동식품</a></li>
+                        <li><a href="#">고객센터</a>
+                            <ul class="dropdown">
+                                <li><a href="./blog-details.html" th:href="@{'/noticeList'}">공지사항</a></li>
+                                <li><a href="./shopping-cart.html" th:href="@{'/qnaList'}">자주묻는 질문</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <div id="mobile-menu-wrap"></div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+</body>
+</html>

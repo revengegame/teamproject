@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thyemleaf.org">
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<div>
+		<h3>홈페이지를 방문해주셔서 감사합니다.</h3><br><br>
+		<div align='center' style='border:1px solid black; font-family:verdana'>
+			<h3 style='color: blue;' th:text="|${userId}님의 임시 비밀번호 입니다.|">아이디</h3>
+			<h3 style='color: blue;'>비밀번호를 변경하여 사용하세요.</h3>
+			<p th:text="|임시 비밀번호 : ${pwNum}|">임시 비밀번호 : </p>
+		</div>
+	</div>
+</body>
+</html>

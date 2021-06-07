@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+button{background-color:#e7ab3c; width:100px; height:30px; border:none; color:#ffffff; border-radius:10px;}
+</style>
+<body>
+
+		<table>
+			<tr th:each="s:${board}" height="40px">
+		    	<th > 문의번호</th>
+				<td th:text="${s.board_id}"/>
+			</tr>
+			<tr th:each="s:${board}" height="40px">	
+				<th> 내용</th>
+				<td th:text="${s.board_detail}">
+			</tr>
+			<tr th:each="s:${board}" height="40px">													
+				<th>회원아이디</th>
+				<td th:text="${s.user_id}"/> 
+			</tr>
+			<tr th:each="s:${board}" height="40px">	
+				<th> 작성일자</th>
+				<td th:text="${s.board_date}"/>
+			</tr>
+
+			<tr height="200px" >
+				<td>작성하기</td>
+				<td >
+				<form action="#" th:action="@{/seller/comment}" th:object="${comments}">
+					<textarea cols="50" rows="10" th:field="*{comments_detail}"></textarea>
+					</form>
+				</td>
+			</tr>
+	</table>
+	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+	<button type="submit" 
+							class="site-btn" onclick="location.href='../complete'">등록하기</button><br><br>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+<head>
+<meta charset="UTF-8" />
+<title>상품등록</title>
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+		<div class="breacrumb-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<a href="#" th:href="@{'/'}"><i class="fa fa-home"></i> Home</a> <span>판매자
+								정보</span>
+						</div>
+					</div>
+				</div>
+				<br>
+
+				<h3>판매현황</h3>
+				<br>
+				<table class="table table-hover" >
+					<tr>
+						<td>주문</td>
+						<td>배송</td>
+						<td>클레임</td>
+						<td>문의사항</td>
+					</tr>
+					<tr>
+						<td>주문현황<a th:text="|${orderCount}건|" th:href="@{/seller/shoppingorder}" href="/seller/shoppingorder" style="text-decoration:none;margin-left: 13%">&emsp;&emsp;0건</a></td>
+						<td>배송중<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;0건</a></td>
+						<td>취소요청<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;0건</a></td>
+						<td>게시판<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;&emsp;0건</a></td>
+					</tr>
+					<tr>
+						<td>신규주문<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+						<td>배송완료<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+						<td>반품요청<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;0건</a></td>
+						<td>쪽지<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;&emsp;&emsp;0건</a></td>
+					</tr>
+					<tr>
+						<td>발송예정<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+						<td>정산예정<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+						<td>교환요청<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;0건</a></td>
+						<td>긴급메시지<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+					</tr>
+					<tr>
+						<td>발송지연<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+						<td>정산완료<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+						<td>미수령신고<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+						<td>긴급알리미<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+					</tr>
+				</table>
+				<br> <br>
+				<fieldset>
+					<h3>상품</h3>
+					<br>
+
+					<table class="table table-hover">
+						<tr>
+							<td>정산관리</td>
+							<td>재고관리</td>
+							<td>주문관리</td>
+						<tr>
+							<td>이번달매출<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;1.000.000</a>원
+							</td>
+							<td>10개미만<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+							<td>결제확인<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+						</tr>
+						<tr>
+							<td>미정산<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;&emsp;&emsp;1.000.000</a>원
+							</td>
+							<td>노출제한<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+							<td>발송확인<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+
+						</tr>
+						<tr>
+							<td>총매출<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;&emsp;&emsp;2.000.000</a>원
+							</td>
+							<td>등록대기<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+							<td>반송<a href="#" style="text-decoration:none;">&emsp;&emsp;&emsp;&emsp;0건</a></td>
+
+						</tr>
+						<tr>
+							<td>나의계좌관리<a href="#" style="text-decoration:none;">&emsp;&emsp;1234-56789</a></td>
+							<td><a href="#" style="text-decoration:none;"></a></td>
+							<td>주문취소<a href="#" style="text-decoration:none;">&emsp;&emsp;0건</a></td>
+
+						</tr>
+					</table>
+					<br> <br>
+					<h3>등록한 상품</h3>
+					<br>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<td>상품아이디</td>
+								<td>회원아이디</td>
+								<td>이름</td>
+								<td>상품분류</td>
+								<td>가격</td>
+								<td>할인율</td>
+								<td>배송비</td>
+								<td>수량</td>
+
+							</tr>
+						</thead>
+						<tbody>
+						
+							<tr th:each="s:${product}">
+ 								<td><a th:href="'/product_info/'+${s.product_id}"> <span
+										th:text="${s.product_id}"></span>								
+								</a></td> 
+								<td th:text="${s.user_id}" />
+								<td th:text="${s.product_name}" />
+								<td th:text="${s.product_div}" />
+								<td th:text="${s.product_price}" />
+								<td th:text="${s.product_sale}" />
+								<td th:text="${s.product_delprice}" />
+								<td th:text="${s.product_count}" />
+							</tr>
+						</tbody>
+
+					</table>
+					<br> <br>
+					<div style="float:right;">
+					<button type="button" class="site-btn"
+						onclick="location.href='/seller/upload'">신규물품 등록하기</button></div>
+					<br>
+					
+
+				</fieldset>
+				<br>
+				<div style="float:right;">
+				<a th:href="@{'/seller/upload1'}"><button type="button" class="site-btn" 
+					>&emsp;내정보 수정하기</button></a>
+				</div>	
+				<br> <br> <br>
+				<div class="right-box" style="float:right;">
+					<strong>총액</strong><input type="text"
+						style="height: 42px">
+
+					<button type="submit" class="site-btn">&emsp;&emsp;출금하기&emsp;&emsp;&nbsp;</button>
+				</div>
+				<br><br><br>
+				
+
+				<!-- Footer Section End -->
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script>
+			/* 삭제 */
+			$(".btn").click(function() {
+		
+				var product_id = $('#product_id').val();			
+		 		var data = {product_id : product_id}	
+				
+				if (confirm("삭제 하시겠습니까?")) {
+					$.ajax({
+						type : "POST",
+						url : "/seller/productDelete",
+						data : data,
+						success : function(result) { // 이 기능은 인증번호 전송이 정상적으로 작동하였을 때만 진행
+							if (result == 'success') {
+								alert('삭제가 완료되었습니다.')
+								location.href='/seller/sellerPage'
+							} else {
+								console.log(result)
+								alert('삭제되지 않았습니다.')
+							}
+						}
+					});
+				} 
+			});
+		</script>
+		<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+	</th:block>
+</body>
+</html>

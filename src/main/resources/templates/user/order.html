@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+
+
+<body>
+	<div th:fragment="cart_contents">
+	<th:block layout:fragment="content">
+
+   <!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a><span>장바구니</span></a>
+                        <a>주문결제</a>
+                        <span>주문완료</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+    
+    <br>
+    <br>
+    
+                    
+    <!-- Shopping Cart Section Begin -->
+    <section class="checkout-section spad">
+        <div class="container">
+            <form id="orderform" class="checkout-form" method="GET" th:action="@{/user/orderend}">
+            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <div class="row">
+                    <div class="col-lg-6" th:object="${userindex}">                        
+                        <h4>배송정보</h4>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="fir">이름<span>*</span></label>
+                                <input type="text" id="fir" th:field="*{user_name}">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="phone">전화번호<span>*</span></label>
+                                <input type="text" id="phone" th:field="*{user_phone}">
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="street">주소<span>*</span></label>
+                                <input type="text" class="add1_input" name="user_add1" id="sample2_postcode" size=10 th:field="*{user_add1}" style="background-color: #FAFAFA" readonly="readonly">
+								<input type="text" class="add2_input" name="user_add2" id="sample2_address" size=50 th:field="*{user_add2}" style="background-color: #FAFAFA" readonly="readonly">
+								<input type="text" class="add3_input" name="user_add3" id="sample2_detailAddress" size=30 th:field="*{user_add3}" style="background-color: #FAFAFA">
+								<input type="button" onclick="sample6_execDaumPostcode()" value="주소 검색">
+								<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
+								<div id="layer" style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
+									<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" 
+										style="cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
+										onclick="closeDaumPostcode()" alt="닫기 버튼">
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" >
+                        <div class="place-order">
+                            <h4>주문 내역</h4>
+                            <div class="order-total">
+                            	<ul class="order-table">
+                               		<li>상품<span>가격&수량</span></li>
+                                </ul>
+                                <ul class="order-table" th:each="c,index :${orderindex}">
+		                          	<li class="fw-normal">
+		                                <input type="hidden"  name="size" id="size" th:value = "${index.size}">
+		                                <input type="hidden"  th:name="${'product_id' + index.index}" id="product_id" th:value = "${c[4]}">
+		                                <input type="hidden"  th:name="${'count' + index.index}" id="count" th:value = "${c[3]}">
+		                                <input type="hidden"  th:name="${'delprice' + index.index}" id="delprice" th:value = "${c[2]}">
+		                                <input type="hidden"  th:name="${'product_name' + index.index}" id="product_name" th:value = "${c[0]}">
+		                                <input type="hidden"  th:name="${'product_price' + index.index}" id="product_price" th:value = "${c[1]}">
+		                                <h7 th:text="${c[0]}"></h7>
+		                                <span><h7 th:name="${'price' + index.index}" th:text="${c[1]}"></h7></span>
+	                                </li>
+	                                <li class="fw-normal">수량 <span><h7 th:name="${'count' + index.index}" th:text="${c[3]}"></h7></span></li>
+	                                <li class="fw-normal">+ 배송비 <span><h7 th:name="${'delprice' + index.index}" th:text="${c[2]}"></h7></span></li>
+                                </ul>
+                                <ul class="order-table">
+	                                <li class="total-price">결제 예정금액 <span ><h7 id="allTotal"></h7></span></li>
+	                            </ul>
+                                <div class="payment-check">
+                                    <div class="pc-item">
+                                        <label for="pc-check">
+                                            <input type="checkbox" id="pc-check">
+                                            위 상품의 구매조건 확인 및 결제진행 동의
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="order-btn">
+                                    <button type="submit" class="site-btn place-btn" id="orderbtn">주문하기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+           <div class="order-btn">
+           	<button type="submit" class="site-btn place-btn" onclick="javascript:history.back();">이전</button>
+           </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+	</th:block>
+
+    
+
+    <!-- Js Plugins -->
+    <th:block layout:fragment="script">
+    
+    <script>
+    	// 가격 계산
+	    function init() {
+	
+	    	var addPrice = 0;
+	    	
+	    	for(var i = 0; i < $('input#size').val(); i++){
+		    	var count = parseInt($('h7[name=count'+i+']').text());
+		    	
+		    	console.log(count);
+		    	
+		    	var price = parseInt($('h7[name=price'+i+']').text());
+		    	
+		    	var delprice = parseInt($('h7[name=delprice'+i+']').text());
+		    	
+		    	$('h7[name=price'+i+']').text(price+' 원');
+		    	$('h7[name=delprice'+i+']').text(delprice+' 원');
+		    	
+		    	console.log(price);
+		    	
+// 		    	$('h7[name=totalPrice'+i+']').text(count * price + ' 원');
+
+		    	addPrice = parseInt(addPrice) + (count*price+delprice);
+	    	}
+	    	$("#allTotal").text(addPrice+' 원');
+	    }
+	    init();
+	    
+	    //체크 동의
+	    $(document).ready(function(){    
+            $("#orderbtn").click(function(){    
+                if($("#pc-check").is(":checked") == false){
+                    alert("결제진행에 동의 하셔야 다음 단계로 진행 가능합니다.");
+                   return false;
+                }else{
+                    $("#orderform").submit();
+                }
+            });    
+        });
+	    
+    </script>
+    
+    <script>
+	// 주소 검색
+	function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    /* // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("sample2_extraAddress").value = extraAddr; */
+                    
+                    // 주소변수 문자열과 참고항목 문자열 합치기
+                    addr += extraAddr;
+                
+                } else {
+                    /* document.getElementById("sample2_extraAddress").value = ''; */
+                	 addr += ' ';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                /* document.getElementById('sample2_postcode').value = data.zonecode;
+                document.getElementById("sample2_address").value = addr; */
+                $(".add1_input").val(data.zonecode);
+                //$("[name=memberAddr1]").val(data.zonecode);    // 대체가능
+                $(".add2_input").val(addr);
+                //$("[name=memberAddr2]").val(addr);            // 대체가능
+                // 커서를 상세주소 필드로 이동한다.
+                /* document.getElementById("sample2_detailAddress").focus(); */
+                // 상세주소 입력란 disabled 속성 변경 및 커서를 상세주소 필드로 이동한다.
+	            $(".add3_input").attr("readonly",false);
+	            $(".add3_input").focus();
+            }
+        }).open();
+	}
+	</script>    
+  	<script	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		
+  	<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+	</th:block>
+	</div>
+</body>
+
+</html>

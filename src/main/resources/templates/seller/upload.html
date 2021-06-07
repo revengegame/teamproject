@@ -1,0 +1,218 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+<head>
+<meta charset="UTF-8" />
+<title>상품등록</title>
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+
+		<div class="breacrumb-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<a href="#" th:href="@{'/'}"><i class="fa fa-home"></i> Home</a> <span>상품
+								등록하기</span>
+						</div>
+					</div>
+				</div>
+				<br>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div>
+					<form action="/seller/upload" th:action="@{/seller/upload}" method="post" class="form-horizontal">
+						<h2>상품 등록하기</h2>
+						<br>
+
+						<table>
+							<tr>
+								<td width="250px" float="right"></td>
+								<td width="600px"></td>
+							</tr>
+							<tr>
+								<td>&emsp;&emsp;회원 아이디</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="user_id"
+												name="user_id" th:value="${userId}" value="" />
+
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>&emsp;&emsp;이름</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="product_name"
+												name="product_name" value="" />
+
+										</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td>&emsp;&emsp;상품분류</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<span> <input type="radio" id="radio"
+												name="product_div" value="1" checked="checked">채소</input>
+
+
+												<span> <input type="radio" id="radio"
+													name="product_div" value="2">과일</input>
+
+
+													<span> <input type="radio" id="radio"
+														name="product_div" value="3">수산물</input>
+
+
+														<span> <input type="radio" id="radio"
+															name="product_div" value="4">냉동식품</input>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>&emsp;&emsp;가격</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="product_price"
+												name="product_price" value="0" />
+
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>&emsp;&emsp;할인율</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<input type="text" list="sale" class="form-control"
+												id="product_sale" name="product_sale" value="0" />
+											<datalist id="sale">
+												<option value="10">
+												<option value="20">
+												<option value="30">
+												<option value="40">
+												<option value="50">
+											</datalist>
+
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>&emsp;&emsp;배송비</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<input type="text" list="del" class="form-control"
+												id="product_delprice" name="product_delprice" value="0" />
+											<datalist id="del">
+												<option value="3000">
+												<option value="3500">
+												<option value="4000">
+												<option value="4500">
+												<option value="5000">
+											</datalist>
+
+										</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td>&emsp;&emsp;수량</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="product_count"
+												name="product_count" value="0" />
+
+										</div>
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td>&emsp;&emsp;간단한 상품설명</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<textarea cols="10px" rows="3px" class="form-control"
+												id="product_detail" name="product_detail"></textarea>
+
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>&emsp;&emsp;상품이미지1</td>
+								<td>
+									<div class="form-group">
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="product_img"
+												name="product_img" value="no_image.png" />
+
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+						<br>
+
+						<div class="form-group" >
+							<div class="col-sm-9">
+
+							 	<button type="submit" class="site-btn" style="float:right;" 
+									onClick="swal('확인되었습니다','나머지 정보를 입력해주세요')">등록 하기</button>
+								<br>
+								<br>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="script">
+		<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+	</th:block>
+</body>
+</html>

@@ -1,0 +1,111 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box
+}
+
+#section01>.join_box>li.checkBox, #section01>.join_box>li.checkBox>ul>li,
+	ul.footBtwrap>li {
+	list-style: none !important
+}
+
+a {
+	text-decoration: none;
+}
+
+.clearfix::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.all_wrap {
+	width: 100%;
+	background-color: #f7f7f7;
+	padding: 20px 0;
+}
+
+#section01 {
+	width: 55%;
+	margin: 0 auto;
+}
+
+ul.join_box {
+	border: 1px solid #ddd;
+	background-color: #fff;
+}
+
+.checkBox, .checkBox>ul {
+	position: relative;
+	margin: 0 !important
+}
+
+.checkBox>ul>li, .footBtwrap>li {
+	margin: 0 !important;
+}
+
+.checkBox>ul>li.btn {
+	margin-top: -15px !important;
+	width: auto !important;
+	border: none !important
+}
+
+.checkBox>ul>li {
+	float: left;
+}
+
+.checkBox>ul, #section01>ul {
+	padding-left: 0 !important
+}
+
+.checkBox>ul>li:first-child {
+	width: 85%;
+	padding: 15px;
+	font-weight: 600;
+	color: #888;
+}
+
+.checkBox>ul>li.btn {
+	position: absolute;
+	top: 50%;
+	right: 30px;
+	margin-top: -12px;
+}
+
+.checkBox textarea {
+	width: 96%;
+	height: 90px;
+	margin: 0 2%;
+	background-color: #f7f7f7;
+	color: #888;
+	border: none;
+}
+
+.footBtwrap {
+	margin-top: 15px;
+}
+
+.footBtwrap>li {
+	float: left;
+	width: 50%;
+	height: 60px;
+}
+
+.footBtwrap>li>button {
+	display: block;
+	width: 100%;
+	height: 100%;
+	font-size: 20px;
+	text-align: center;
+	line-height: 60px;
+}
+
+.fpmgBt1 {
+	background-color: #fff;
+	color: #888 !important
+}
+
+.fpmgBt2 {
+	background-color: lightsalmon;
+	color: #fff !important;
+}

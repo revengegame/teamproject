@@ -1,0 +1,85 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+<head>
+<meta charset="UTF-8" />
+<title>전체상품</title>
+
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+		<!-- Breadcrumb Section Begin -->
+		<div class="breacrumb-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<a th:href="@{'/'}" href="/"> <i class="fa fa-home"></i>홈
+							</a> <span>베스트셀러</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb Section Begin -->
+
+		<!-- Blog Section Begin -->
+		<section class="blog-section spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 order-1 order-lg-2">
+						<div class="row">
+							<div class="col-lg-4 col-sm4" th:each="p: ${products}">
+								<div class="blog-item">
+									<div class="bi-pic">
+										<a href="#" th:href="'/product_info/'+${p.product_id}"> <img id="p_imgs" th:src="'/img_view/'+${p.product_img}" alt="" a href="#" th:href="'/product_info/'+${p.product_id}"> 
+										</a>
+									</div>
+									<div class="bi-text">
+										<a href="#" th:href="'/product_info/'+${p.product_id}">
+											<h4 th:text="${p.product_name}">통통한 통영 비단 홍가리비 1kg</h4>
+										</a>
+										<p th:text="${p.product_price} + 원">7,900원</p>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Blog Section End -->
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+	</th:block>
+</body>
+
+</html>

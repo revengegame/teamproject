@@ -1,0 +1,99 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+<head>
+<meta charset="UTF-8">
+<title>아이디 찾기</title>
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+
+		<!-- Breadcrumb Section Begin -->
+		<div class="breacrumb-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<a href="#"><i class="fa fa-home"></i> 홈</a> <span>아이디 찾기</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb Form Section Begin -->
+
+		<!-- Register Section Begin -->
+		<div class="register-login-section spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 offset-lg-3">
+						<div class="login-form">
+							<h2>아이디 찾기</h2>
+							<form action="#" th:action="@{/login}" method="GET">
+								<div class="group-input2">
+									<div th:if="${userSearchId} != null">
+										<h4>
+											<span th:text="|${user_name}님의 아이디는 ${userSearchId}입니다.|">아이디</span>
+										</h4>
+										<br>
+									</div>
+									<div th:if="${userSearchId} == null">
+										<h4>
+											<span>해당 메일과 일치하는 아이디는 존재하지 않습니다.</span>
+										</h4>
+										<br>
+									</div>
+								</div>
+								<div th:if="${userSearchId} != null">
+									<button type="submit" id="searchId_button"
+										class="site-btn login-btn">로그인</button>
+								</div>
+							</form>
+							<div class="switch-login">
+								<div th:if="${userSearchId} == null">
+									<a href="/searchId" class="or-login">아이디 찾기</a><br> <a
+										href="/select" class="or-login">회원가입</a>
+								</div>
+								<div th:if="${userSearchId} != null">
+									<a href="/select" class="or-login">회원가입</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Register Form Section End -->
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+	</th:block>
+</body>
+
+</html>

@@ -1,0 +1,640 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+		<!-- Breadcrumb Section Begin -->
+		<div class="breacrumb-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<a><span>회원유형</span></a> <a><span>약관동의</span></a> <a>정보입력</a> <span>가입완료</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb Form Section Begin -->
+
+		<!-- Register Section Begin -->
+		<div class="register-login-section spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 offset-lg-3">
+						<div class="register-form">
+							<h2>회원가입</h2>
+							<form action="#" th:action="@{/register}" method="POST"
+								id="join_form">
+								<input type="hidden" th:value="${div}" class="user_type"
+									name="div" />
+								<div class="group-input2">
+									<p>*는 필수입력사항 입니다.</p>
+								</div>
+								<div class="group-input">
+									<label for="user_id">아이디 * </label> <input type="text"
+										class="id_input" name="user_id"
+										placeholder="영문, 숫자 포함 8~15자리로 입력해주세요."> <span
+										class="id_input_re_1">사용 가능한 아이디입니다.</span> <span
+										class="id_input_re_2">중복된 아이디입니다.</span> <span
+										class="id_input_re_3">공백을 사용할 수 없습니다.</span> <span
+										class="id_check">아이디를 확인해주세요.</span> <span class="final_id_ck">아이디를
+										입력해주세요.</span>
+								</div>
+								<div class="group-input">
+									<label for="pass">비밀번호 *</label> <input type="password"
+										name="user_pass" class="pw_input"
+										placeholder="영문,숫자,특수문자를 포함한 8~15자리로 입력해주세요."> <span
+										class="final_pw_ck">비밀번호를 입력해주세요.</span> <span
+										class="final_pw_ck2">비밀번호 형식을 확인해주세요.</span> <span
+										class="final_pw_ck3">공백을 사용할 수 없습니다.</span>
+									<div class="pw_check"></div>
+								</div>
+								<div class="group-input">
+									<label for="con-pass">비밀번호 확인 *</label> <input type="password"
+										id="con-pass" class="pwck_input"
+										placeholder="영문,숫자,특수문자를 포함한 8~15자리로 입력해주세요."> <span
+										class="final_pwck_ck">비밀번호 확인을 입력해주세요.</span> <span
+										class="pwck_input_re_1">비밀번호가 일치합니다.</span> <span
+										class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span> <span
+										class="final_pwck_ck2">비밀번호 형식을 확인해주세요.</span> <span
+										class="final_pwck_ck3">공백을 사용할 수 없습니다.</span>
+									<div class="pw_check"></div>
+								</div>
+								<div class="group-input">
+									<label for="username">이름 * </label> <input type="text"
+										name="user_name" class="name_input"
+										placeholder="한글 5~15자리로 입력해주세요."> <span
+										class="final_name_ck">공백없이 한글 입력만 가능합니다.</span>
+									<div class="name_check"></div>
+								</div>
+								<div th:if="${div}==2">
+									<div class="group-input">
+										<label for="user_regnum">사업자번호 *</label> <input type="text"
+											name="user_regnum" class="reg_input" id="reg"
+											placeholder="ex)123-45-67891"> <input type="button"
+											onclick="checkCorporateRegiNumber(reg.value)"
+											value="사업자번호 조회"> <span class="reg_input_re_1">사업자
+											번호가 확인되었습니다.</span> <span class="reg_input_re_2">사업자 번호를
+											확인해주세요.</span> <span class="final_reg_ck">사업자 번호 입력 및 조회
+											해주세요.</span> <span class="final_reg_ck2">사업자 번호가 중복되었습니다.</span>
+										<div class="reg_check"></div>
+									</div>
+								</div>
+								<div class="group-input">
+									<label for="user_email">E-mail *</label> <input type="text"
+										name="user_email" class="mail_input"
+										placeholder="ex)abc@gmail.com"> <span
+										class="final_mail_ck">이메일을 입력해주세요.</span> <span
+										class="final_mail_ck2">이메일 형식 및 이메일 중복을 확인해주세요.</span>
+								</div>
+								<div class="group-input">
+									<div class="mail_button">
+										<input type="button" value="메일 중복확인"> <span
+											class="final_mail_ck4">사용가능한 이메일입니다.</span> <span
+											class="final_mail_ck5">이미 가입된 이메일입니다.</span>
+									</div>
+								</div>
+								<div class="group-input">
+									<div class="mail_check_wrap">
+										<div class="mail_check_box" id="mail_check_input_box_false">
+											<input class="mail_check_input" disabled="disabled">
+										</div>
+										<div class="mail_check_button">
+											<input type="button" value="인증번호 전송">
+										</div>
+										<div class="clearfix"></div>
+										<span id="mail_check_box_warn"></span> <span
+											class="final_mail_ck3">이메일 인증을 해주세요.</span>
+									</div>
+								</div>
+
+								<div class="group-input">
+									<label for="user_phone">전화번호 *</label> <input type="text"
+										name="user_phone" class="phone_input"
+										placeholder="ex)010-1234-1234"> <span
+										class="final_phone_ck">번호를 입력해주세요.</span> <span
+										class="final_phone_ck2">번호를 형식에 맞게 입력해주세요.</span>
+								</div>
+								<!-- <div class="group-input">
+                                <label for="con-pass">주소 *</label>
+                                <input type="text" id="con-pass" onclick="execPostCode()">
+                            </div> -->
+								<div class="group-input">
+									<label for="user_address">주소 *</label>
+									<p>
+										<input type="text" class="add1_input" name="user_add1"
+											id="sample2_postcode" placeholder="우편번호" readonly="readonly">
+										<input type="text" class="add2_input" name="user_add2"
+											id="sample2_address" placeholder="주소" readonly="readonly"><br>
+										<input type="text" class="add3_input" name="user_add3"
+											id="sample2_detailAddress" placeholder="상세주소"> <input
+											type="button" onclick="sample6_execDaumPostcode()"
+											value="주소 검색"> <span class="final_addr_ck">상세주소를
+											입력해주세요.</span>
+										<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
+									<div id="layer"
+										style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
+										<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+											id="btnCloseLayer"
+											style="cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
+											onclick="closeDaumPostcode()" alt="닫기 버튼">
+									</div>
+								</div>
+								<button type="button" class="site-btn register-btn"
+									id="join_button">가입하기</button>
+							</form>
+							<div class="switch-login">
+								<a href="./login.html" class="or-login">로그인하기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Register Form Section End -->
+	</th:block>
+	<th:block layout:fragment="script">
+		<script>
+    var code = ""; // 이메일전송 인증번호 저장위한 코드
+    
+    var idckCheck = false; // 아이디 중복검사
+ 	var pwCheck = false; // 비번
+ 	var pwckCheck = false; // 비번 확인
+ 	var pwckcorCheck = false; // 비번 확인 일치 확인
+ 	var nameCheck = false; // 이름
+ 	var mailCheck = false; // 이메일
+ 	var mailnumCheck = false; // 이메일 인증번호 확인
+ 	var addressCheck = false; // 주소
+ 	var regCheck = false; // 사업자번호
+ 	var phoneCheck = false; // 전화번호
+ 	var emailChk = false; // 이메일 중복체크
+	
+ 	
+ 	// 유효성 정규식
+ 	var regId = /^[a-zA-Z](?=.*[a-zA-Z])(?=.*[0-9]).{7,14}$/;
+ 	var regPass = /^.*(?=^.{7,14}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+ 	var regName = /^[가-힣]{2,15}$/;
+ 	var regPhone =  /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+ 	var regMail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+ 	
+ 	//security token
+ 	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+ 	
+	$(document).ready(function(){
+		//회원가입 버튼(회원가입 기능 작동)
+		$("#join_button").click(function(){
+			/* $("#join_form").attr("action", "/user/register");
+			$("#join_form").submit(); */
+			var id = $('.id_input').val();
+	        var pw = $('.pw_input').val();                // 비밀번호 입력란
+	        var pwck = $('.pwck_input').val();            // 비밀번호 확인 입력란
+	        var name = $('.name_input').val();            // 이름 입력란
+	        var mail = $('.mail_input').val();            // 이메일 입력란
+	        var phone = $('.phone_input').val();          // 번호 입력란
+	        var add3 = $('.add3_input').val();            // 주소3 입력란
+	        var reg = $('.reg_input').val();		      //사업자 번호
+	        var user_type = $('.user_type').val();
+	        
+	        
+	     	// 정규식 검사 
+	     	
+	     	/* 아이디 검사 */
+	     	/* if(id == ""){ // id가 null
+	     		$('.final_id_ck').css("display","inline-block"); // 공백
+	     	} else {
+	     		$('.final_id_ck').css("display","inline-none");
+	     	} */
+	     	
+	        /* 비밀번호 유효성 검사 */
+	        if(pw == ""){ // pw가 null
+	        	$('.final_pw_ck').css('display','block');
+	        	$('.final_pw_ck3').css('display','none');
+	        	$('.final_pw_ck2').css('display','none');
+	        	pwCheck = false;
+	        } else if(!regPass.test(pw)){ // 유효성 어긋 날 때
+	        	$('.final_pw_ck2').css('display','block');
+	        	$('.final_pw_ck3').css('display','none');
+	        	$('.final_pw_ck').css('display','none');
+	        	pwCheck = false;
+	        } else if(pw.search(/\s/) !== -1){ // 공백이 있을때 
+	        	$('.final_pw_ck3').css('display','block');
+	        	$('.final_pw_ck2').css('display','none');
+	        	$('.final_pw_ck').css('display','none');
+	        	pwCheck = false;
+	        } else { // 통과
+	        	$('.final_pw_ck3').css('display','none');
+	        	$('.final_pw_ck2').css('display','none');
+	        	$('.final_pw_ck').css('display','none');
+	        	pwCheck = true;
+	        }
+	        
+	        /* 비밀번호 확인 유효성 검사 */
+	        if(pwck == ""){ // null
+	        	$('.final_pwck_ck').css('display','block');
+	        	$('.final_pwck_ck2').css('display','none');
+	        	$('.final_pwck_ck3').css('display','none');
+	        	pwckCheck = false;
+	        } else if(!regPass.test(pwck)){ // 유효성 검사 탈락
+	        	$('.final_pwck_ck2').css('display','block');
+	        	$('.final_pwck_ck').css('display','none');
+	        	$('.final_pwck_ck3').css('display','none');
+	        	pwckCheck = false;
+	        } else if(pwck.search(/\s/) !== -1){ // 공백
+	        	$('.final_pwck_ck3').css('display','block');
+	        	$('.final_pwck_ck2').css('display','none');
+	        	$('.final_pwck_ck').css('display','none');
+	        	pwckCheck = false;
+	        } else { // 통과
+	        	$('.final_pwck_ck2').css('display','none');
+	        	$('.final_pwck_ck').css('display','none');
+	        	$('.final_pwck_ck3').css('display','none');
+	        	pwckCheck = true;
+	        }
+	        
+	        /* 사업자 번호 검사 */
+	        if(!regCheck || regCheck == ""){
+	        	$('.final_reg_ck').css('display','block');
+	        } else {
+	        	console.log(regCheck)
+	        	$('.final_reg_ck').css('display','none');
+	        }
+	        
+	        /* 이름 유효성 검사 */
+	        if(!regName.test(name)){ // 유효성 검사 탈락
+	        	$('.final_name_ck').css('display', 'block');
+	        	nameCheck = false;
+	        } else { // 통과
+	        	$('.final_name_ck').css('display', 'none');
+	        	nameCheck = true;
+	        }
+	        
+	        /* 이메일 유효성 검사 */
+	        if(mail == ""){
+	            $('.final_mail_ck').css('display','block');
+	            $('.final_mail_ck2').css('display','none');
+	            mailCheck = false;
+	        }else{
+	            $('.final_mail_ck').css('display', 'none');
+	            $('.final_mail_ck2').css('display','none');
+	            mailCheck = true;
+	        }
+	        
+	        /* 이메일 인증 검사 */
+	        if(mailnumCheck == false){
+	            $('.final_mail_ck3').css('display','block');
+	            mailCheck = false;
+	        }
+	        
+	        /* 전화번호 유효성 검사 */
+	        if(phone == ""){
+	            $('.final_phone_ck').css('display','block');
+	            $('.final_phone_ck2').css('display', 'none');
+	            phoneCheck = false;
+	        }else if(!regPhone.test(phone)){
+	        	$('.final_phone_ck2').css('display','block');
+	        	$('.final_phone_ck').css('display', 'none');
+	        	phoneCheck = false;
+	        }else{
+	            $('.final_phone_ck').css('display', 'none');
+	            $('.final_phone_ck2').css('display','none');
+	            phoneCheck = true;
+	        }
+	        
+	        /* 주소 유효성 검사 */
+	        if(add3 == ""){
+	            $('.final_addr_ck').css('display','block');
+	            addressCheck = false;
+	        }else{
+	            $('.final_addr_ck').css('display', 'none');
+	            addressCheck = true;
+	        }
+	        
+	        console.log(idckCheck)
+	        console.log(pwCheck)
+	        console.log(pwckCheck)
+	        console.log(pwckcorCheck)
+	        console.log(nameCheck)
+	        console.log(regCheck)
+	        console.log(addressCheck)
+	        console.log(phoneCheck)
+	        console.log(mailCheck)
+	        console.log(user_type)
+	        
+	        /* 최종 유효성 검사 */
+	        if(user_type == 2){
+		        if(idckCheck&&pwCheck&&pwckCheck&&pwckcorCheck&&nameCheck&&
+		        		regCheck&&addressCheck&&phoneCheck&&mailCheck&&
+		        		mailnumCheck&&emailChk){
+			        
+		        	$("#join_form").submit();
+		        }    
+	        	return false;
+			} else {
+				if(idckCheck&&pwCheck&&pwckCheck&&pwckcorCheck&&nameCheck&&addressCheck&&phoneCheck&&mailCheck&&mailnumCheck&&emailChk){
+			        
+		        	$("#join_form").submit();
+		        }  
+				return false;
+			}
+	    });
+ 	});
+ 	
+	//패스워드 검사
+ 	$('.pwck_input').on("propertychange change keyup paste input", function(){
+	    	 var pw = $('.pw_input').val();
+	    	 var pwck = $('.pwck_input').val();
+	    	 
+	    	 $('.final_pwck_ck').css('display', 'none');
+	    	 
+	    	 if(pw == pwck){
+	    	        $('.pwck_input_re_1').css('display','block');
+	    	        $('.pwck_input_re_2').css('display','none');
+	    	        pwckcorCheck = true;
+    	     }else{
+    	         $('.pwck_input_re_1').css('display','none');
+    	         $('.pwck_input_re_2').css('display','block');
+    	         pwckcorCheck = false;
+    	     }        
+			
+	});
+ 	
+ 	//아이디 중복검사
+ 	$('.id_input').on("propertychange change keyup paste input", function(){
+		
+ 		var userId = $('.id_input').val();			// .id_input에 입력되는 값
+ 		var data = {userId : userId}				// '컨트롤에 넘길 데이터 이름' : '데이터(.id_input에 입력되는 값)'
+ 		var result_id = regId.exec(userId);
+ 		
+ 		// [영문 대문자 또는 소문자 또는 숫자로 시작하는 아이디, 길이는 5~15자, 끝날때 제한 없음]
+		
+ 		// 아이디가 공백이거나 비어 있을 때
+ 		if(userId.search(/\s/) != -1 || userId == ""){
+ 			$('.id_input_re_3').css("display","inline-block"); // 공백
+ 			$('.id_input_re_1').css("display","none"); // 사용 가능
+			$('.id_input_re_2').css("display", "none"); // 중복 아이디
+			$('.id_check').css('display','none'); // 아이디 확인
+			
+			idckCheck = false
+ 		} else if(!regId.test(result_id)){ // 유효성 검사에 어긋날 때
+        	$('.id_check').css('display','inline-block'); // 아이디 확인
+        	$('.id_input_re_3').css("display","none");
+ 			$('.id_input_re_1').css("display","none");
+			$('.id_input_re_2').css("display", "none");
+			
+			idckCheck = false;
+        } else {
+ 		
+	 		$.ajax({
+	 			type : "post",
+	 			url : "/userIdChk",
+	 			data : data,
+	            success : function(result){
+	   			  /* console.log("성공 여부 " + result);  */
+	            	if(result != 'fail' && regId.test(result_id)){ // 중복없음
+	    				$('.id_input_re_1').css("display","inline-block");
+	    				$('.id_input_re_2').css("display", "none");
+	    				$('.id_input_re_3').css("display","none");
+	    				$('.id_check').css('display','none');
+	    				// 아이디 중복이 없는 경우
+	    				idckCheck = true;
+	    			} else { // 중복있음
+	    				$('.id_input_re_2').css("display","inline-block");
+	    				$('.id_input_re_1').css("display", "none");
+	    				$('.id_input_re_3').css("display","none");
+	    				$('.id_check').css('display','none');
+	    				// 아이디 중복된 경우
+	    				idckCheck = false
+	    			}
+	   			
+	   			},// success 종료,
+				error:function(xhr,status,error){
+					console.log('error:'+error);
+				}
+	   		
+ 			}); // ajax 종료
+ 		}
+ 	});// function 종료
+ 	
+ 	/* 이메일 중복확인 */
+ 	$(".mail_button").click(function(){
+ 		
+ 		var email = $(".mail_input").val();
+ 		if(email != ""){
+	 		$.ajax({ 
+	 	        type:"POST",
+	 	      	url:"emailChk?email=" + email,
+	 	    	success:function(data){ // 이 기능은 인증번호 전송이 정상적으로 작동하였을 때만 진행
+	 	    		if(data == 'fail'){
+	 	    			$('.final_mail_ck4').css('display','none');
+	 	    			$('.final_mail_ck5').css('display','block');
+	 	    			emailChk = false;
+	 	    		} else {
+	 	    			$('.final_mail_ck4').css('display','block');
+	 	    			$('.final_mail_ck5').css('display','none');
+	 	    			$('.final_mail_ck2').css('display','none');
+	 	    			$('.final_mail_ck').css('display','none');
+	 	    			emailChk = true;
+	 	    		}
+	 	    	}
+	 	    });
+ 		} else {
+ 			$('.final_mail_ck').css('display','block');
+ 			emailChk = false;
+ 		}
+ 	});
+ 	
+ 	/* 인증번호 이메일 전송 */
+ 	$(".mail_check_button").click(function(){
+ 		
+ 		 var email = $(".mail_input").val();        // 입력한 이메일
+ 	     var checkBox = $(".mail_check_input"); // 인증번호 입력란
+ 		 var boxWrap = $(".mail_check_box"); // 인증번호 입력 박스
+ 		  		 
+ 		 if(emailChk){
+    		$.ajax({	 
+	 	        type:"GET",
+	 	      	url:"mailCheck?email=" + email,
+ 	 	   		success:function(data){ // 이 기능은 인증번호 전송이 정상적으로 작동하였을 때만 진행
+ 	 	    	checkBox.attr("disabled",false); // 인증번호 입력가능하게 변경
+ 	 	    	boxWrap.attr("id", "mail_check_box_true"); // 배경색 변경
+ 	 	    	code = data; // controller에서 받은 data = code
+ 	        	}  
+ 			});
+ 		 } else {
+ 			 $('.final_mail_ck2').css('display','block');
+        	 $('.final_mail_ck').css('display', 'none');
+		 }
+ 	});
+ 	
+ 	/* 메일 인증번호 비교 */
+ 	$(".mail_check_input").blur(function(){
+ 		var inputCode = $(".mail_check_input").val();        // 입력코드    
+ 	    var checkResult = $("#mail_check_box_warn");    // 비교 결과  
+ 	    
+ 	    if(code == inputCode){ // 일치시
+			checkResult.html("인증번호가 일치합니다.");
+ 	    	checkResult.attr("class", "correct");
+ 	    	mailnumCheck = true;
+ 	    } else if(code != inputCode || inputCode == null){ // 비일치시
+ 	    	checkResult.html("인증번호를 확인해주세요.");
+ 	    	checkResult.attr("class", "incorrect");
+ 	    	mailnumCheck = false;
+ 	    } 
+ 	});
+ 	
+ 	/* 사업자번호 인증 및 중복 */
+ 	function checkCorporateRegiNumber(){
+ 		
+ 		var reg = $('.reg_input').val();                // 사업자 번호
+ 		var regNumChk = false; // 사업자 중복체크 	
+ 		var numberMap = reg.replace(/-/gi, '').split('').map(function (d){
+ 			return parseInt(d, 10);
+ 		});
+ 		
+ 		if(numberMap.length == 10){
+ 			
+ 			// 중복 확인 후
+ 			$.ajax({ 
+ 	 	        type:"POST",
+ 	 	      	url:"regChk?reg=" + reg,
+ 	 	    	success:function(data){ // 이 기능은 인증번호 전송이 정상적으로 작동하였을 때만 진행
+ 	 	    		
+ 	 	    		if(data == 'fail'){
+ 	 	    			$('.final_reg_ck2').css('display','block'); 
+ 	 	    		} else {
+ 	 	    			$('.final_reg_ck2').css('display','none');
+ 	 	    			
+ 	 	    			// 사업자 번호 인증
+ 	 	    			var keyArr = [1, 3, 7, 1, 3, 7, 1, 3, 5];
+ 	 		 			var chk = 0;
+ 	 		 			
+ 	 		 			keyArr.forEach(function(d, i){
+ 	 		 				chk += d * numberMap[i];
+ 	 		 			});
+ 	 		 			
+ 	 		 			chk += parseInt((keyArr[8] * numberMap[8])/ 10, 10);
+ 	 		 			/* console.log(chk); */
+ 	 		 			
+ 	 		 			if(Math.floor(numberMap[9]) === ( (10 - (chk % 10) ) % 10)){
+ 	 		 				$('.reg_input_re_1').css('display', 'block');
+ 	 		 				$('.reg_input_re_2').css('display', 'none');
+ 	 		 				$('.final_reg_ck').css('display','none');
+ 	 		 				regCheck = true;
+ 	 		 			} else {
+ 	 		 			    $('.reg_input_re_2').css('display','block');
+ 	 		 			    $('.reg_input_re_1').css('display', 'none');
+ 	 		 			    $('.final_reg_ck').css('display','none');
+ 	 			            regCheck = false;
+ 	 		 	 		}
+ 	 	    		}
+ 	 	    	}
+ 	 	    });
+ 		} 
+    };
+   
+	</script>
+
+		<!-- Footer Section End -->
+
+		<!-- daum 주소 -->
+		<script
+			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script>
+		function sample6_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var addr = ''; // 주소 변수
+	                var extraAddr = ''; // 참고항목 변수
+	
+	                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                    addr = data.roadAddress;
+	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                    addr = data.jibunAddress;
+	                }
+	
+	                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	                if(data.userSelectedType === 'R'){
+	                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있고, 공동주택일 경우 추가한다.
+	                    if(data.buildingName !== '' && data.apartment === 'Y'){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	                    if(extraAddr !== ''){
+	                        extraAddr = ' (' + extraAddr + ')';
+	                    }
+	                    /* // 조합된 참고항목을 해당 필드에 넣는다.
+	                    document.getElementById("sample2_extraAddress").value = extraAddr; */
+	                    
+	                    // 주소변수 문자열과 참고항목 문자열 합치기
+	                    addr += extraAddr;
+	                
+	                } else {
+	                    /* document.getElementById("sample2_extraAddress").value = ''; */
+	                	 addr += ' ';
+	                }
+	
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                /* document.getElementById('sample2_postcode').value = data.zonecode;
+	                document.getElementById("sample2_address").value = addr; */
+	                $(".add1_input").val(data.zonecode);
+	                //$("[name=memberAddr1]").val(data.zonecode);    // 대체가능
+	                $(".add2_input").val(addr);
+	                //$("[name=memberAddr2]").val(addr);            // 대체가능
+	                // 커서를 상세주소 필드로 이동한다.
+	                /* document.getElementById("sample2_detailAddress").focus(); */
+	                // 상세주소 입력란 disabled 속성 변경 및 커서를 상세주소 필드로 이동한다.
+		            $(".add3_input").attr("readonly",false);
+		            $(".add3_input").focus();
+	            }
+	        }).open();
+		}
+	</script>
+		<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.js"
+			integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+			crossorigin="anonymous"></script>
+	</th:block>
+</body>
+
+</html>

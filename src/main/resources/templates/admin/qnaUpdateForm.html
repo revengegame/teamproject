@@ -1,0 +1,134 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+
+<head>
+<meta charset="UTF-8" />
+<title>공지사항</title>
+
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+<th:block layout:fragment="css">
+	<!-- Bootstrap CSS -->
+
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+
+</th:block>
+</head>
+<th:block layout:fragment="content">
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Breadcrumb Section Begin -->
+	<div class="breacrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text">
+						<a href="#"><i class="fa fa-home"></i> 홈</a> <span>공지사항</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Breadcrumb Form Section Begin -->
+	<!-- Register Section Begin -->
+	<div class="register-login-section spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="login-form">
+						<h2>공지사항</h2>
+						<form action="writeAction" th:action="@{/admin/qnaUpdate}"
+							method="POST" th:object="${qnaUpdate}">
+							<input type="hidden" name="user_id" th:field="*{qna_id}"/>
+							<div class="form-group">
+								<label for="usr">제목</label> <input type="text"
+									class="form-control" id="title" th:field="*{qna_title}">
+							</div>
+							<div class="form-group">
+								<label for="comment">내용</label>
+								<textarea class="form-control" rows="5" id="contents"
+									th:field="*{qna_content}"></textarea>
+							</div>
+							<button type="submit" id="btnSave" class="btn btn-secondary" style="margin-left: 87%">등록</button>
+							<a href="#" th:href="@{'/qnaList'}"
+								class="btn btn-secondary">취소</a>
+						</form>
+						<div class="switch-login">
+							<a th:href="@{'/qnaList'}" class="or-login">목록으로</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Register Form Section End -->
+
+</th:block>
+<!-- Js Plugins -->
+<th:block layout:fragment="script">
+	<script>
+		// input 체크
+		var titieCheck = false;
+		var contentCheck = false;
+		$(document).ready(function() {
+			$("#btnSave").click(function() {
+				var title = $('#title').val();
+				var content = $('#contents').val(); // 번호 입력란
+
+				if (title == "") {
+					alert("제목을 입력해주세요");
+					$("#title").focus();
+					titieCheck = false;
+				} else {
+					titieCheck = true;
+				}
+
+				if (content == "") {
+					alert("내용을 입력해주세요");
+					$("#content").focus();
+					contentCheck = false;
+				} else {
+					contentCheck = true;
+				}
+
+				if (titieCheck && contentCheck) {
+					if(confirm("수정 하시겠습니까?")){
+						$("#btnSave").submit();
+		        		alert("수정되었습니다.")
+		        	}
+				} else {
+					return false;
+				}
+			})
+		});
+	</script>
+
+
+	<script th:src="@{/js/jquery-3.3.1.min.js}"
+		src="../static/js/jquery-3.3.1.min.js"></script>
+	<script th:src="@{/js/bootstrap.min.js}"
+		src="../static/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/jquery-ui.min.js}"
+		src="../static/js/jquery-ui.min.js"></script>
+	<script th:src="@{/js/jquery.countdown.min.js}"
+		src="../static/js/jquery.countdown.min.js"></script>
+	<script th:src="@{/js/jquery.nice-select.min.js}"
+		src="../static/js/jquery.nice-select.min.js"></script>
+	<script th:src="@{/js/jquery.zoom.min.js}"
+		src="../static/js/jquery.zoom.min.js"></script>
+	<script th:src="@{/js/jquery.dd.min.js}"
+		src="../static/js/jquery.dd.min.js"></script>
+	<script th:src="@{/js/jquery.slicknav.js}"
+		src="../static/js/jquery.slicknav.js"></script>
+	<script th:src="@{/js/owl.carousel.min.js}"
+		src="../static/js/owl.carousel.min.js"></script>
+	<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+
+
+</th:block>
+</th:block>

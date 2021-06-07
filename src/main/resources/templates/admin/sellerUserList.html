@@ -1,0 +1,130 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+
+<head>
+<meta charset="UTF-8" />
+<title>회원관리</title>
+
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+</th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+
+		<!-- Breadcrumb Section Begin -->
+		<div class="breacrumb-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<a href="#" th:href="@{'/'}"><i class="fa fa-home"></i> Home</a> <span>판매회원</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb Form Section Begin -->
+
+		<!-- Register Section Begin -->
+		<div class="register-login-section spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="login-form">
+							<h4 align="center">판매회원</h4><br>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<td style="font-weight: bold;">NO</td>
+										<td style="font-weight: bold;">아이디</td>
+										<td style="font-weight: bold;">회원유형</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="user, userStat : ${userList}">
+										<td th:text="${userStat.count}">1</td>
+										<td><a th:href="@{'/admin/userDetail/'} + ${user.user_id}" style="text-decoration: none; color: black;">
+												<span th:text="${user.user_id}">제목</span>
+										</a></td>
+										<td>
+											<span th:if="${user.user_div} == '1'">일반회원</span>
+											<span th:if="${user.user_div}== '2'">판매회원</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<nav style="text-align: center;">
+							    <ul class="pagination justify-content-center"
+							        th:with="start=${T(Math).floor(userList.number/10)*10 + 1},
+							                    last=(${start + 9 < userList.totalPages ? start + 9 : userList.totalPages})">
+							        <li class="page-item">
+							            <a class="page-link" th:href="@{/allUserList(page=1)}" aria-label="First">
+							                <span aria-hidden="true">이전</span>
+							            </a>
+							        </li>
+							
+							        <li class="page-item" th:class="${userList.first} ? 'disabled'">
+							            <a class="page-link" th:href="${userList.first} ? '#' :@{/allUserList(page=${userList.number})}" aria-label="Previous">
+							                <span aria-hidden="true">&lt;</span>
+							            </a>
+							        </li>
+							
+							        <li class="page-item" th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == userList.number + 1} ? 'active'">
+							            <a class="page-link" th:text="${page}" th:href="@{/allUserList(page=${page})}"></a>
+							        </li>
+							
+							        <li class="page-item" th:class="${userList.last} ? 'disabled'">
+							            <a class="page-link" th:href="${userList.last} ? '#' : @{/allUserList(page=${userList.number + 2})}" aria-label="Next">
+							                <span aria-hidden="true">&gt;</span>
+							            </a>
+							        </li>
+							
+							        <li class="page-item">
+							            <a class="page-link" th:href="@{/allUserList(page=${userList.totalPages})}" aria-label="Last">
+							                <span aria-hidden="true">다음</span>
+							            </a>
+							        </li>
+							    </ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<!-- Register Form Section End -->
+	</th:block>
+	<!-- Js Plugins -->
+	<th:block layout:fragment="script">
+		<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+	</th:block>
+</body>
+</html>

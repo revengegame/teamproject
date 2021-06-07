@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+
+<head>
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+
+
+<body>
+	<div th:fragment="cart_contents">
+	<th:block layout:fragment="content">
+
+   <!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	<!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a>장바구니</a>
+                        <a><span>주문결제</span></a>
+                        <span>주문완료</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cart-table">
+                    	<form method="POST" id="cartform" name="cartform" th:action="@{/user/order1}"> <!-- onsubmit="order1()" -->
+                    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	                        <table>
+	                            <thead>
+	                                <tr>
+	                                    <th></th>
+	                                    <th class="p-name">상품명</th>
+	                                    <th>가격</th>
+	                                    <th>수량</th>
+	                                    <th>합계</th>
+	                                    <th><i class="ti-close"></i></th>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+ 	                                <tr th:each="c,index : ${cartproduct}">
+	                                    <td class="cart-pic first-row">
+ 	                                		<input type="hidden"  name="size" id="size" th:value = "${index.size}">
+	                                    	<img th:src="'/img_view/'+${c[7]}" alt="">
+	                                    </td>
+	                                    <td class="cart-title first-row">
+	                                        <a href="#"><h7 th:text="${c[3]}" >..</h7></a>
+	                                    </td>
+	                                    <td class="p-price first-row"><h7 th:name="${'price' + index.index}" th:text="${c[4]}"></h7></td>
+	                                    <td class="qua-col first-row">
+	                                        <div class="quantity">
+	                                            <div class="pro-qty">
+	                                                <input type="text" th:name="${'count' + index.index}" th:value="${c[2]}">
+	                                            </div>
+	                                        </div>
+	                                    </td>
+	                                    <td class="total-price first-row"><h7 th:name="${'totalPrice' + index.index}" >8000원</h7></td>
+	                                    <td class="close-td first-row"><i class="ti-close"><input type="hidden"  th:name="${'product_id' + index.index}" class="product_id" th:value = "${c[1]}"></i></td>
+	                                </tr>                                
+	                            </tbody>
+	                            <tfoot>
+	                            	<tr>
+	                            		<td></td>
+	                            		<th>총 합계</th>
+	                            		<td></td>
+	                            		<td></td>
+	                            		<th id="allTotal">8000원</th>
+	                            	</tr>
+	                            </tfoot>
+	                        </table>
+	                        <Br>
+							<div class="order-btn" style="text-align: center">
+								<button type="submit"  class="site-btn place-btn" name="order">주문하기</button>
+							</div>
+						</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+	</th:block>
+
+    
+
+    <!-- Js Plugins -->
+    <th:block layout:fragment="script">
+    <script>
+    function init() {
+
+    	var addPrice = 0;
+    	
+    	for(var i = 0; i < $("#size").val(); i++){
+	    	var count = $('input[name=count'+i+']').val();
+	    	console.log(count);
+	    	var price = $('h7[name=price'+i+']').text();
+	    	$('h7[name=price'+i+']').text(price+' 원');
+	    	console.log(price);
+	    	$('h7[name=totalPrice'+i+']').text(count * price + ' 원');
+	    	addPrice = addPrice + (count*price);
+    	}
+    	$("#allTotal").text(addPrice+' 원');
+    }
+    init();
+    
+// 	function order1(){
+// 		var token = $("meta[name='_csrf']").attr("content");
+// 		var header = $("meta[name='_csrf_header']").attr("content");
+		
+//         var formData = $('#cartform').serialize() // serialize 사용
+        
+//         console.log(formData) // password = 5151\
+        
+//         $.ajax({
+//         	headers: {
+//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//             },
+//             url: "/user/order1",
+//             type: "POST",
+//             cache: false,
+//             data: formData, // data에 바로 serialze한 데이터를 넣는다.
+//             success: function(data){
+//             	location.href ="/user/order";
+//             	window.location.replace("/user/order");
+//             },
+//             error: function (request, status, error){        
+//                 console.log(error)
+//             }
+//         }) 
+//     }
+    </script>
+    
+  	<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+	</th:block>
+	</div>
+</body>
+
+</html>

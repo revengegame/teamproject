@@ -1,0 +1,136 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+<head>
+<meta charset="UTF-8" />
+<title>회원가입</title>
+
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+		<!-- Breadcrumb Section Begin -->
+		<div class="breacrumb-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<a>회원유형</a> <a><span>약관동의</span></a> <a><span>정보입력</span></a> <span>가입완료</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb Form Section Begin -->
+
+		<!-- Register Section Begin -->
+		<div class="register-login-section spad">
+			<div class="container">
+				<div class="login-form">
+					<h2>회원가입</h2>
+					<div class="banner-section spad">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="single-banner">
+										<img src="../img/banner.jpg" alt="">
+										<div class="inner-text">
+											<h2>
+												<a th:href="@{'/agree'}" href="bestseller.html">일반회원</a>
+											</h2>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="single-banner">
+										<img src="../img/banner.jpg" alt="">
+										<div class="inner-text">
+											<h2>
+												<a th:href="@{'/sellerAgree'}" href="bestseller.html">셀러회원</a>
+											</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Register Form Section End -->
+
+		<!-- Footer Section Begin -->
+		<footer class="footer-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="footer-left">
+							<div class="footer-logo">
+								<a href="./index.html"><img src="./img/main_logo.png"
+									alt="로고"></a>
+							</div>
+							<ul>
+								<li>대표이사 : O O O</li>
+								<li>서울특별시 마포구 동교로</li>
+								<li>사업자 등록번호 : 000-00-00000</li>
+								<li>통신판매업신고 : 2015-서울마포-0000</li>
+							</ul>
+							<div class="footer-social">
+								<ul>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="copyright-reserved">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="copyright-text">
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								저작권 회사대표 주소
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- Footer Section End -->
+	</th:block>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+	</th:block>
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{Layout/default}">
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<!-- config fragment 사용 -->
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+<body>
+	<th:block layout:fragment="content">
+
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+		<!-- Breadcrumb Section Begin -->
+		<div class="breacrumb-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<a href="#" th:href="@{'/'}"><i class="fa fa-home"></i> Home</a> <span>회원관리</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb Form Section Begin -->
+
+		<!-- Register Section Begin -->
+		<div class="register-login-section spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 offset-lg-3">
+						<div class="register-form">
+							<h2>회원 수정</h2>
+							<form action="#" th:action="@{/admin/userUpdate}"  method="POST"
+								id="update_form" th:object="${shoppingUser}">
+								<div class="group-input">
+									<label for="user_id">아이디 * </label> <input type="text"
+										class="id_input" name="user_id" id="user_id" value="${user_id}" th:field="*{user_id}" readonly="readonly"
+										placeholder="영문, 숫자 포함 8~15자리로 입력해주세요."> <span
+										class="id_input_re_1">사용 가능한 아이디입니다.</span> <span
+										class="id_input_re_2">중복된 아이디입니다.</span> <span
+										class="id_input_re_3">공백을 사용할 수 없습니다.</span> <span
+										class="id_check">아이디를 확인해주세요.</span> <span class="final_id_ck">아이디를
+										입력해주세요.</span>
+								</div>
+								<div class="group-input">
+									<label for="username">이름 * </label> <input type="text"
+										name="user_name" class="name_input"  th:field="*{user_name}"
+										placeholder="한글 5~15자리로 입력해주세요."> <span
+										class="final_name_ck">공백없이 한글 입력만 가능합니다.</span>
+									<div class="name_check"></div>
+								</div>
+								<div class="group-input">
+									<label for="user_email">E-mail *</label> <input type="text"
+										name="user_email" class="mail_input" th:field="*{user_email}" readonly="readonly">
+								</div>
+								<div class="group-input">
+									<label for="user_phone">전화번호 *</label> <input type="text"
+										name="user_phone" class="phone_input"  th:field="*{user_phone}"> <span
+										class="final_phone_ck">번호를 입력해주세요.</span> <span
+										class="final_phone_ck2">번호를 형식에 맞게 입력해주세요.</span>
+								</div>
+								<div class="group-input">
+									<label for="user_address">주소 *</label>
+									<p>
+										<input type="text" class="add1_input" name="user_add1" th:field="*{user_add1}"
+											id="sample2_postcode" readonly="readonly">
+										<input type="text" class="add2_input" name="user_add2" th:field="*{user_add2}"
+											id="sample2_address" readonly="readonly"><br>
+										<input type="text" class="add3_input" name="user_add3" th:field="*{user_add3}"
+											id="sample2_detailAddress" > <input
+											type="button" onclick="sample6_execDaumPostcode()"
+											value="주소 검색"> <span class="final_addr_ck">상세주소를
+											입력해주세요.</span>
+										<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
+									<div id="layer"
+										style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
+										<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+											id="btnCloseLayer"
+											style="cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
+											onclick="closeDaumPostcode()" alt="닫기 버튼">
+									</div>
+									<div class="group-input">
+										<label for="user_phone">가입일 *</label> <span
+											th:text="${#temporals.format(shoppingUser.createdDate, 'yyyy-MM-dd')}">가입일</span>
+									</div>
+								</div>
+								<button type="button" class="site-btn register-btn"
+									id="update_button">수정하기</button>
+								<button type="button" class="site-btn register-btn"
+									id="delete_button">삭제하기</button>
+								<a th:href="@{'/admin/allUserList'}"><button type="button" class="site-btn register-btn"
+									id="delete_button">뒤로가기</button></a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Register Form Section End -->
+	</th:block>
+	<th:block layout:fragment="script">
+	<script>
+	 	var nameCheck = false; // 이름
+	 	var addressCheck = false; // 주소
+	 	var phoneCheck = false; // 전화번호
+	 	
+	 	// 유효성 정규식
+	 	var regName = /^[가-힣]{2,15}$/;
+	 	var regPhone =  /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+	 	
+		$(document).ready(function(){
+			//회원가입 버튼(회원가입 기능 작동)
+			$("#update_button").click(function(){
+		        var name = $('.name_input').val();            // 이름 입력란
+		        var phone = $('.phone_input').val();          // 번호 입력란
+		        var add3 = $('.add3_input').val();            // 주소3 입력란
+		        
+		        /* 이름 유효성 검사 */
+		        if(!regName.test(name)){ // 유효성 검사 탈락
+		        	$('.final_name_ck').css('display', 'block');
+		        	nameCheck = false;
+		        } else { // 통과
+		        	$('.final_name_ck').css('display', 'none');
+		        	nameCheck = true;
+		        }
+		        
+		        /* 전화번호 유효성 검사 */
+		        if(phone == ""){
+		            $('.final_phone_ck').css('display','block');
+		            $('.final_phone_ck2').css('display', 'none');
+		            phoneCheck = false;
+		        }else if(!regPhone.test(phone)){
+		        	$('.final_phone_ck2').css('display','block');
+		        	$('.final_phone_ck').css('display', 'none');
+		        	phoneCheck = false;
+		        }else{
+		            $('.final_phone_ck').css('display', 'none');
+		            $('.final_phone_ck2').css('display','none');
+		            phoneCheck = true;
+		        }
+		        
+		        /* 주소 유효성 검사 */
+		        if(add3 == ""){
+		            $('.final_addr_ck').css('display','block');
+		            addressCheck = false;
+		        }else{
+		            $('.final_addr_ck').css('display', 'none');
+		            addressCheck = true;
+		        }
+		        
+		        /* 최종 유효성 검사 */
+		        if(nameCheck&&addressCheck&&phoneCheck){
+		        	if(confirm("수정 하시겠습니까?")){
+		        		$("#update_form").submit();
+		        		alert("수정되었습니다.")
+		        	}
+		        }    
+		        	return false;
+		    });
+	 	});
+		
+		/* 삭제 */
+		$("#delete_button").click(function() {
+	
+			var userId = $('.id_input').val();			// .id_input에 입력되는 값
+	 		var data = {user_id : userId}	
+			
+			console.log(userId)
+			
+			if (confirm("삭제 하시겠습니까?")) {
+				$.ajax({
+					type : "POST",
+					url : "/admin/userDelete",
+					data : data,
+					success : function(result) { // 이 기능은 인증번호 전송이 정상적으로 작동하였을 때만 진행
+						if (result == 'fail') {
+							alert('삭제되지 않았습니다.')
+						} else {
+							alert('삭제가 완료되었습니다.')
+							location.href='/admin/adminPage';
+						}
+					}
+				});
+			}
+		});
+	</script>
+
+		<!-- Footer Section End -->
+
+		<!-- daum 주소 -->
+		<script
+			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script>
+		function sample6_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var addr = ''; // 주소 변수
+	                var extraAddr = ''; // 참고항목 변수
+	
+	                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                    addr = data.roadAddress;
+	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                    addr = data.jibunAddress;
+	                }
+	
+	                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	                if(data.userSelectedType === 'R'){
+	                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있고, 공동주택일 경우 추가한다.
+	                    if(data.buildingName !== '' && data.apartment === 'Y'){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	                    if(extraAddr !== ''){
+	                        extraAddr = ' (' + extraAddr + ')';
+	                    }
+	                    /* // 조합된 참고항목을 해당 필드에 넣는다.
+	                    document.getElementById("sample2_extraAddress").value = extraAddr; */
+	                    
+	                    // 주소변수 문자열과 참고항목 문자열 합치기
+	                    addr += extraAddr;
+	                
+	                } else {
+	                    /* document.getElementById("sample2_extraAddress").value = ''; */
+	                	 addr += ' ';
+	                }
+	
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                /* document.getElementById('sample2_postcode').value = data.zonecode;
+	                document.getElementById("sample2_address").value = addr; */
+	                $(".add1_input").val(data.zonecode);
+	                //$("[name=memberAddr1]").val(data.zonecode);    // 대체가능
+	                $(".add2_input").val(addr);
+	                //$("[name=memberAddr2]").val(addr);            // 대체가능
+	                // 커서를 상세주소 필드로 이동한다.
+	                /* document.getElementById("sample2_detailAddress").focus(); */
+	                // 상세주소 입력란 disabled 속성 변경 및 커서를 상세주소 필드로 이동한다.
+		            $(".add3_input").attr("readonly",false);
+		            $(".add3_input").focus();
+	            }
+	        }).open();
+		}
+	</script>
+		<script th:src="@{/js/jquery-3.3.1.min.js}"
+			src="../static/js/jquery-3.3.1.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"
+			src="../static/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"
+			src="../static/js/jquery-ui.min.js"></script>
+		<script th:src="@{/js/jquery.countdown.min.js}"
+			src="../static/js/jquery.countdown.min.js"></script>
+		<script th:src="@{/js/jquery.nice-select.min.js}"
+			src="../static/js/jquery.nice-select.min.js"></script>
+		<script th:src="@{/js/jquery.zoom.min.js}"
+			src="../static/js/jquery.zoom.min.js"></script>
+		<script th:src="@{/js/jquery.dd.min.js}"
+			src="../static/js/jquery.dd.min.js"></script>
+		<script th:src="@{/js/jquery.slicknav.js}"
+			src="../static/js/jquery.slicknav.js"></script>
+		<script th:src="@{/js/owl.carousel.min.js}"
+			src="../static/js/owl.carousel.min.js"></script>
+		<script th:src="@{/js/main.js}" src="../static/js/main.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.js"
+			integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+			crossorigin="anonymous"></script>
+	</th:block>
+</body>
+
+</html>
